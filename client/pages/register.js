@@ -40,6 +40,9 @@ const Register = () => {
       })
       // console.log('REGISTER RESPONSE ---> ', data)
       toast.success('Regitration successful. Please login.')
+      setName('')
+      setEmail('')
+      setPassword('')
       setLoading(false)
     } catch (err) {
       toast.error(err.response.data)
