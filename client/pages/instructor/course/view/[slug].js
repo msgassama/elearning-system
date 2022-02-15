@@ -5,11 +5,19 @@ import axios from 'axios'
 import { Avatar, Tooltip, Button, Modal } from 'antd'
 import { EditOutlined, CheckOutlined, UploadOutlined } from '@ant-design/icons'
 import ReactMarkdown from 'react-markdown'
+import AddLessonForm from '../../../../components/forms/AddLessonForm'
 
 const CourseView = () => {
   const [course, setCourse] = useState({})
+
   // for lessons
   const [visible, setVisible] = useState(false)
+  const [values, setValues] = useState({
+    title: '',
+    content: '',
+    video: '',
+  })
+  const [uploading, setUploading] = useState(false)
 
   const router = useRouter()
   const { slug } = router.query
@@ -21,6 +29,12 @@ const CourseView = () => {
   const loadCourse = async () => {
     const { data } = await axios.get(`/api/course/${slug}`)
     setCourse(data)
+  }
+
+  // FUNCTIONS FOR ADD LESSON
+  const handleAddLesson = (e) => {
+    e.preventDefault()
+    console.log(values)
   }
 
   return (
@@ -84,7 +98,13 @@ const CourseView = () => {
               onCancel={() => setVisible(false)}
               footer={null}
             >
-              add lesson component
+              <AddLessonForm
+                values={values}
+                setValues={setValues}
+                handleAddLesson={handleAddLesson}
+                uploading={uploading}
+                setUploading={setUploading}
+              />
             </Modal>
           </div>
         )}
