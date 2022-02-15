@@ -5,7 +5,6 @@ const AddLessonForm = ({
   setValues,
   handleAddLesson,
   uploading,
-  setUploading,
   uploadButtonText,
   handleVideo,
 }) => {
