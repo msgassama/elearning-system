@@ -6,6 +6,8 @@ const AddLessonForm = ({
   handleAddLesson,
   uploading,
   setUploading,
+  uploadButtonText,
+  handleVideo,
 }) => {
   return (
     <div className="container pt-3">
@@ -28,6 +30,11 @@ const AddLessonForm = ({
           value={values.content}
           placeholder="Content"
         ></textarea>
+
+        <label className="btn btn-dark btn-block text-left mt-3">
+          {uploadButtonText}
+          <input onChange={handleVideo} type="file" accept="video/*" hidden />
+        </label>
 
         <Button
           size="large"
