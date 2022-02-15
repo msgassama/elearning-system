@@ -25,11 +25,11 @@ const InstructorIndex = () => {
       {/* <pre>{JSON.stringify(courses, null, 4)}</pre> */}
       {courses &&
         courses.map((course) => (
-          <>
+          <div key={course._id}>
             <div className="media pt-2">
               <Avatar
                 size={80}
-                src={course.image ? course.image.Location : '/course.png'}
+                src={course.image ? course.image.Location : '/course.jpeg'}
               />
 
               <div className="media-body pl-2">
@@ -73,7 +73,7 @@ const InstructorIndex = () => {
                 </div>
               </div>
             </div>
-          </>
+          </div>
         ))}
     </InstructorRoute>
   )
