@@ -218,3 +218,22 @@ export const update = async (req, res) => {
     return res.status(400).send('Update course failed')
   }
 }
+
+export const removeLesson = async (req, res) => {
+  const { slug, lessonId } = req.params
+  const course = await Course.findOne({ slug }).exec()
+
+  if (course.instructor != req.user._id) {
+    return res.status(400).send('Unauthorized')
+  }
+
+  const updatedCourse = await Course.findByIdAndUpdate(
+    course._id,
+    {
+      $pull: { lessons: { _id: lessonId } },
+    },
+    { new: true },
+  ).exec()
+
+  res.json({ ok: true })
+}
