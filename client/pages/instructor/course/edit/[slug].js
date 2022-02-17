@@ -104,6 +104,33 @@ const EditCourse = () => {
     }
   }
 
+  const handleDrag = (e, index) => {
+    // console.log('ON DRAG ===> ', index)
+    e.dataTransfer.setData('itemIndex', index)
+  }
+
+  const handleDrop = async (e, index) => {
+    // console.log('ON DROP ===> ', index)
+
+    const movingItemIndex = e.dataTransfer.getData('itemIndex')
+    const targetItemIndex = index
+
+    let allLessons = values.lessons
+
+    let movingItem = allLessons[movingItemIndex] // clicked/dragged item to re-order
+    allLessons.splice(movingItemIndex, 1) // remove one item fron the given index
+    allLessons.splice(targetItemIndex, 0, movingItem) // push item after target item index
+
+    setValues({ ...values, lessons: [...allLessons] })
+    // save the new lessons order in db
+    const { data } = await axios.put(`/api/course/${slug}`, {
+      ...values,
+      image,
+    })
+    console.log('LESSONS REARRANGED RES ===> ', data)
+    toast.success('Lessons rearranged successfully!')
+  }
+
   return (
     <InstructorRoute>
       <h1 className="jumbotron text-center square">Update Course</h1>
@@ -125,10 +152,15 @@ const EditCourse = () => {
         <div className="col lesson-list">
           <h4>{values && values.lessons && values.lessons.length} Lessons</h4>
           <List
+            onDragOver={(e) => e.preventDefault()}
             itemLayout="horizontal"
             dataSource={values && values.lessons}
             renderItem={(item, index) => (
-              <Item>
+              <Item
+                draggable
+                onDragStart={(e) => handleDrag(e, index)}
+                onDrop={(e) => handleDrop(e, index)}
+              >
                 <Item.Meta
                   avatar={<Avatar>{index + 1}</Avatar>}
                   title={item.title}
