@@ -196,8 +196,22 @@ const EditCourse = () => {
     setUploading(false)
   }
 
-  const handleUpdateLesson = () => {
-    console.log('handle update lesson')
+  const handleUpdateLesson = async (e) => {
+    // console.log('handle update lesson')
+    e.preventDefault()
+    const { data } = await axios.put(
+      `/api/course/lesson/${slug}/${current._id}`,
+      current,
+    )
+    setUploadVideoButtonText('Upload Video')
+    setVisible(false)
+    if (data.ok) {
+      let arr = values.lessons
+      const index = arr.findIndex((el) => el._id === current._id)
+      arr[index] = current
+      setValues({ ...values, lessons: arr })
+      toast.info('Lesson updated')
+    }
   }
 
   return (
