@@ -53,8 +53,9 @@ const CourseView = () => {
       )
       // console.log(data)
       setValues({ ...values, title: '', content: '', video: {} })
-      setVisible(false)
+      setProgress(0)
       setUploadButtonText('Upload Video')
+      setVisible(false)
       setCourse(data)
       toast.success('Lesson added')
     } catch (err) {
@@ -120,7 +121,7 @@ const CourseView = () => {
       if (!answer) {
         return
       }
-      const { data } = await axios.post(`/api/course/publish/${courseId}`)
+      const { data } = await axios.put(`/api/course/publish/${courseId}`)
       setCourse(data)
       toast.success('Congrats! Your course is now live')
     } catch (err) {
@@ -136,9 +137,9 @@ const CourseView = () => {
       if (!answer) {
         return
       }
-      const { data } = await axios.post(`/api/course/publish/${courseId}`)
+      const { data } = await axios.put(`/api/course/unpublish/${courseId}`)
       setCourse(data)
-      toast.success('Congrats! Your course is now unpublished')
+      toast.success('Your course is now unpublished')
     } catch (err) {
       toast.error('Course unpublish failed. Try again')
     }
