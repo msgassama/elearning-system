@@ -1,8 +1,14 @@
 import { Badge } from 'antd'
 import axios from 'axios'
 import { currencyFormatter } from '../../utils/helpers'
+import ReactPlayer from 'react-player'
+import { useState } from 'react'
 
 const SingleCourse = ({ course }) => {
+  // state
+  const [showModal, setShowModal] = useState(false)
+  const [preview, setPreview] = useState('')
+
   const {
     name,
     description,
@@ -45,12 +51,37 @@ const SingleCourse = ({ course }) => {
           </div>
           <div className="col-md-4">
             {/* show video preview or course image */}
-            <p>show course image</p>
+            {lessons[0].video && lessons[0].video.Location ? (
+              <div
+                onClick={() => {
+                  setPreview(lessons[0].video.Location)
+                  setShowModal(!showModal)
+                }}
+              >
+                <ReactPlayer
+                  className="react-player-div"
+                  url={lessons[0].video.Location}
+                  light={image.Location}
+                  width="100%"
+                  height="225px"
+                />
+              </div>
+            ) : (
+              <>
+                <img
+                  src={image.Location}
+                  alt={name}
+                  className="img img-fluid"
+                />
+              </>
+            )}
             {/* enroll button */}
             <p>show enroll button</p>
           </div>
         </div>
       </div>
+
+      {showModal ? course.lessons[0].video.Location : "don't show"}
     </>
   )
 }
