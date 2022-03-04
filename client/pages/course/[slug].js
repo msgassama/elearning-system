@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import SingleCourseJumbotron from '../../components/cards/SingleCourseJumbotron'
+import SingleCourseLessons from '../../components/cards/SingleCourseLessons'
 import PreviewModal from '../../components/modals/PreviewModal'
 
 const SingleCourse = ({ selectedCourse }) => {
@@ -29,6 +30,15 @@ const SingleCourse = ({ selectedCourse }) => {
           setShowModal={setShowModal}
           preview={preview}
         />
+
+        {course.lessons && (
+          <SingleCourseLessons
+            lessons={course.lessons}
+            setPreview={setPreview}
+            showModal={showModal}
+            setShowModal={setShowModal}
+          />
+        )}
       </>
     )
   } else {
