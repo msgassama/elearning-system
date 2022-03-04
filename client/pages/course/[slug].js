@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import SingleCourseJumbotron from '../../components/cards/SingleCourseJumbotron'
+import PreviewModal from '../../components/modals/PreviewModal'
 
 const SingleCourse = ({ selectedCourse }) => {
   // state
@@ -23,8 +24,11 @@ const SingleCourse = ({ selectedCourse }) => {
           preview={preview}
           setPreview={setPreview}
         />
-
-        {showModal ? course.lessons[0].video.Location : "don't show"}
+        <PreviewModal
+          showModal={showModal}
+          setShowModal={setShowModal}
+          preview={preview}
+        />
       </>
     )
   } else {
