@@ -1,18 +1,33 @@
 import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import SingleCourseJumbotron from '../../components/cards/SingleCourseJumbotron'
 import SingleCourseLessons from '../../components/cards/SingleCourseLessons'
 import PreviewModal from '../../components/modals/PreviewModal'
+import { Context } from '../../context'
 
 const SingleCourse = ({ selectedCourse }) => {
   // state
   const [showModal, setShowModal] = useState(false)
   const [preview, setPreview] = useState('')
   const [course, setCourse] = useState(undefined)
+  const [loading, setLoading] = useState(false)
+
+  // context
+  const {
+    state: { user },
+  } = useContext(Context)
 
   useEffect(() => {
     setCourse(selectedCourse)
   }, [])
+
+  const handlePaidEnrollment = () => {
+    console.log('handle paid enrollment')
+  }
+
+  const handleFreeEnrollment = () => {
+    console.log('handle free enrollment')
+  }
 
   if (course) {
     return (
@@ -24,6 +39,10 @@ const SingleCourse = ({ selectedCourse }) => {
           setShowModal={setShowModal}
           preview={preview}
           setPreview={setPreview}
+          user={user}
+          loading={loading}
+          handlePaidEnrollment={handlePaidEnrollment}
+          handleFreeEnrollment={handleFreeEnrollment}
         />
         <PreviewModal
           showModal={showModal}
