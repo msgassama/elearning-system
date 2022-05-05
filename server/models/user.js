@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 
 const { Schema } = mongoose
+const { ObjectId } = Schema.Types
 
 const userSchema = new Schema(
   {
@@ -37,6 +38,7 @@ const userSchema = new Schema(
       type: String,
       default: '',
     },
+    courses: [{ type: ObjectId, ref: 'Course' }],
   },
   { timestamps: true },
 )
