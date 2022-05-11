@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import axios from 'axios'
-import user from '../../../../server/models/user'
+import StudentRoute from '../../../components/routes/StudentRoute'
 
 const SingleCourse = () => {
   const [loading, setLoading] = useState(false)
@@ -17,14 +17,14 @@ const SingleCourse = () => {
   }, [slug])
 
   const loadCourse = async () => {
-    const { data } = await axios.get(`/api/course/${slug}`)
+    const { data } = await axios.get(`/api/user/course/${slug}`)
     setCourse(data)
   }
 
   return (
-    <>
+    <StudentRoute>
       <h1>Couse slug is: {JSON.stringify(course, null, 4)}</h1>
-    </>
+    </StudentRoute>
   )
 }
 
