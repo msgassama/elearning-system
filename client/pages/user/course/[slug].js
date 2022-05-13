@@ -33,12 +33,21 @@ const SingleCourse = () => {
     setCourse(data)
   }
 
+  const markCompleted = async () => {
+    const { data } = await axios.post(`/api/mark-completed`, {
+      courseId: course._id,
+      lessonId: course.lessons[clicked]._id,
+    })
+
+    console.log(data)
+  }
+
   return (
     <StudentRoute>
       <div className="row">
-        <div style={{ maxWidth: '320px' }}>
+        <div className="overflow-auto" style={{ height: '100vh' }}>
           <Button
-            className="text-primarymt-1 btn-block mb-2"
+            className="text-primary mt-1 btn-block mb-2"
             onClick={() => setCollapsed(!collapsed)}
           >
             {createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined)}{' '}
@@ -48,7 +57,7 @@ const SingleCourse = () => {
             mode="inline"
             defaultSelectedKeys={[clicked]}
             inlineCollapsed={collapsed}
-            style={{ height: '80vh', overflow: 'scroll' }}
+            style={{ height: '80vh', overflowY: 'scroll', overflowX: 'hidden' }}
           >
             {course.lessons.map((lesson, index) => (
               <Item
@@ -62,9 +71,18 @@ const SingleCourse = () => {
           </Menu>
         </div>
 
-        <div className="col">
+        <div className="col overflow-auto pt-2" style={{ height: '100vh' }}>
           {clicked !== -1 ? (
             <>
+              <div className="col alert alert-primary square">
+                <b>{course.lessons[clicked].title.substring(0, 30)}</b>
+                <span
+                  className="float-right pointer text-success"
+                  onClick={markCompleted}
+                >
+                  Mark as completed
+                </span>
+              </div>
               {course.lessons[clicked].video &&
                 course.lessons[clicked].video.Location && (
                   <>
@@ -88,6 +106,7 @@ const SingleCourse = () => {
             <div className="d-flex justify-content-center p-5">
               <div className="text-center p-5">
                 <PlayCircleOutlined className="text-primary display-1 p-5" />
+                <h2>Start Learning</h2>
                 <p className="lead">Click on the lessons to start learning</p>
               </div>
             </div>
