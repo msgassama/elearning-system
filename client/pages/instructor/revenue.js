@@ -5,12 +5,14 @@ import axios from 'axios'
 import {
   DollarOutlined,
   SettingOutlined,
-  LoadingOutlined,
+  SyncOutlined,
 } from '@ant-design/icons'
 import { stripeCurrencyFormatter } from '../../utils/helpers'
+import { toast } from 'react-toastify'
 
 const InstructorRevenue = () => {
   const [balance, setBalance] = useState({ pending: [] })
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     sendBalanceRequest()
@@ -23,7 +25,16 @@ const InstructorRevenue = () => {
   }
 
   const hanlePayoutSettings = async () => {
-    console.log('Handle payout settings')
+    // console.log('Handle payout settings')
+    try {
+      setLoading(true)
+      const { data } = await axios.get('/api/instructor/payout-settings')
+      window.location.href = data
+    } catch (err) {
+      setLoading(false)
+      console.log(err)
+      toast.error('Unable to access payout settings. Try later')
+    }
   }
 
   return (
@@ -52,11 +63,15 @@ const InstructorRevenue = () => {
             <small>For last 48 hours</small>
             <hr />
             <h4>
-              Payout{' '}
-              <SettingOutlined
-                className="float-right"
-                onClick={hanlePayoutSettings}
-              />
+              Payouts{' '}
+              {!loading ? (
+                <SettingOutlined
+                  className="float-right"
+                  onClick={hanlePayoutSettings}
+                />
+              ) : (
+                <SyncOutlined spin className="float-right pointer" />
+              )}
             </h4>
             <small>
               Update your stripe account details or view previous payouts.

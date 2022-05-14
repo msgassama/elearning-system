@@ -47,7 +47,7 @@ const TopNav = () => {
         icon={<AppstoreOutlined />}
       >
         <Link href="/">
-          <a>App</a>
+          <a>MSG-ACADEMY</a>
         </Link>
       </Item>
 
