@@ -7,7 +7,7 @@ import {
   SettingOutlined,
   LoadingOutlined,
 } from '@ant-design/icons'
-import { currencyFormatter } from '../../utils/helpers'
+import { stripeCurrencyFormatter } from '../../utils/helpers'
 
 const InstructorRevenue = () => {
   const [balance, setBalance] = useState({ pending: [] })
@@ -17,7 +17,9 @@ const InstructorRevenue = () => {
   }, [])
 
   const sendBalanceRequest = async () => {
-    console.log('SEND BALANCE REQUEST')
+    // console.log('SEND BALANCE REQUEST')
+    const { data } = await axios.get('/api/instructor/balance')
+    setBalance(data)
   }
 
   const hanlePayoutSettings = async () => {
@@ -37,10 +39,17 @@ const InstructorRevenue = () => {
               hours
             </small>
             <hr />
+            {/* {JSON.stringify(balance, null, 4)} */}
             <h4>
-              Pending balance <span className="float-right">$0.00</span>
+              Pending balance
+              {balance.pending &&
+                balance.pending.map((bp, i) => (
+                  <span key={i} className="float-right">
+                    {stripeCurrencyFormatter(bp)}
+                  </span>
+                ))}
             </h4>
-            <small>For 48 hours</small>
+            <small>For last 48 hours</small>
             <hr />
             <h4>
               Payout{' '}
